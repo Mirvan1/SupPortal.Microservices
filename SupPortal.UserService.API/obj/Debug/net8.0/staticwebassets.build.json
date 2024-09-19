@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "JglMAWP9XKJvaNXAG1kM5ncMGVMi/WWhyB3oXqxYRnE=",
+  "Source": "SupPortal.UserService.API",
+  "BasePath": "_content/SupPortal.UserService.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,6 @@
+@SupPortal.TicketService.API_HostAddress = http://localhost:5120
+
+GET {{SupPortal.TicketService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

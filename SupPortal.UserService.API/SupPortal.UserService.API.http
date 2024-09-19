@@ -1,0 +1,6 @@
+@SupPortal.UserService.API_HostAddress = http://localhost:5084
+
+GET {{SupPortal.UserService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

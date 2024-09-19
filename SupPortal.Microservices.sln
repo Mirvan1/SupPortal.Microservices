@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupPortal.TicketService", "SupPortal.TicketService", "{63ECD4C3-D57A-4666-82C2-E71AAD7EED39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupPortal.UserService", "SupPortal.UserService", "{FAC79D9D-EE0D-447E-B4DB-81556E10C9B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupPortal.TicketService.API", "SupPortal.TicketService.API\SupPortal.TicketService.API.csproj", "{CF9A4180-E2BD-4045-81DB-FCA31C2C2666}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupPortal.Shared", "SupPortal.Shared\SupPortal.Shared.csproj", "{B2539F22-9676-474A-AB10-1A0AED0F0AB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupPortal.NotificationService", "SupPortal.NotificationService", "{BBC01999-DA96-4745-AD8C-79A6E1F9131D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupPortal.NotificationService.API", "SupPortal.NotificationService.API\SupPortal.NotificationService.API.csproj", "{95679A6C-414B-499F-8712-DEA9DA024BAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupPortal.UserService.API", "SupPortal.UserService.API\SupPortal.UserService.API.csproj", "{1065030C-43A3-4BD1-963A-486819D757C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupPortal.Microservices.Gateway.API", "SupPortal.Microservices.Gateway.API\SupPortal.Microservices.Gateway.API.csproj", "{36A9EA49-39FA-4F0E-9B2D-585C4B0B6F6D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF9A4180-E2BD-4045-81DB-FCA31C2C2666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9A4180-E2BD-4045-81DB-FCA31C2C2666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9A4180-E2BD-4045-81DB-FCA31C2C2666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9A4180-E2BD-4045-81DB-FCA31C2C2666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2539F22-9676-474A-AB10-1A0AED0F0AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2539F22-9676-474A-AB10-1A0AED0F0AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2539F22-9676-474A-AB10-1A0AED0F0AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2539F22-9676-474A-AB10-1A0AED0F0AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95679A6C-414B-499F-8712-DEA9DA024BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95679A6C-414B-499F-8712-DEA9DA024BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95679A6C-414B-499F-8712-DEA9DA024BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95679A6C-414B-499F-8712-DEA9DA024BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1065030C-43A3-4BD1-963A-486819D757C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1065030C-43A3-4BD1-963A-486819D757C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1065030C-43A3-4BD1-963A-486819D757C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1065030C-43A3-4BD1-963A-486819D757C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A9EA49-39FA-4F0E-9B2D-585C4B0B6F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A9EA49-39FA-4F0E-9B2D-585C4B0B6F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A9EA49-39FA-4F0E-9B2D-585C4B0B6F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A9EA49-39FA-4F0E-9B2D-585C4B0B6F6D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF9A4180-E2BD-4045-81DB-FCA31C2C2666} = {63ECD4C3-D57A-4666-82C2-E71AAD7EED39}
+		{95679A6C-414B-499F-8712-DEA9DA024BAC} = {BBC01999-DA96-4745-AD8C-79A6E1F9131D}
+		{1065030C-43A3-4BD1-963A-486819D757C8} = {FAC79D9D-EE0D-447E-B4DB-81556E10C9B1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0ABBD975-5BF1-429F-B49E-AE0762B55465}
+	EndGlobalSection
+EndGlobal

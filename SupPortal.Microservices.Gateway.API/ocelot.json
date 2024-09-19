@@ -1,0 +1,71 @@
+{
+  "Routes": [
+    //{
+    //  "DownstreamPathTemplate": "/api/ticket/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7253
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/ticket/{everything}",
+    //  "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+    //  "SwaggerKey": "ticket",
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "Bearer",
+    //    "AllowedScopes": []
+    //  }
+    //},
+
+
+ 
+
+    {
+      "DownstreamPathTemplate": "/api/user/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "SwaggerKey": "user",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    }
+
+
+
+  ],
+
+  "SwaggerEndPoints": [
+    //{
+    //  "Key": "ticket",
+    //  "Config": [
+    //    {
+    //      "Name": "Ticket API",
+    //      "Version": "v1",
+    //      "Url": "https://localhost:7253/swagger/v1/swagger.json"
+    //    }
+    //  ]
+    //},
+    {
+      "Key": "user",
+      "Config": [
+        {
+          "Name": "user API",
+          "Version": "v1",
+          "Url": "https://localhost:7004/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7266"
+  }
+}

@@ -1,0 +1,63 @@
+﻿using MediatR;
+using SupPortal.Shared.Events;
+using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
+using SupPortal.TicketService.API.ApplicationCore.Dtos.Response;
+using SupPortal.TicketService.API.ApplicationCore.Interface;
+using SupPortal.TicketService.API.Domain.Entities;
+using SupPortal.TicketService.API.Infrastructure.Repository;
+using System.Text.Json;
+
+namespace SupPortal.TicketService.API.ApplicationCore.Features.Ticket.Command;
+
+public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRepository _ticketRepository, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings) : IRequestHandler<UpdateTicketStatusCommand, BaseResponseDto>
+{
+    public async Task<BaseResponseDto> Handle(UpdateTicketStatusCommand request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var loggedUserRole = _authSettings.GetLoggedUserRole();
+
+            if (loggedUserRole.Equals("User")) return BaseResponseDto.ErrorResponse("");
+
+            await _unitOfWork.BeginTransactionAsync();
+
+            var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
+
+            if (getTicket is null) return BaseResponseDto.ErrorResponse("");
+
+            getTicket.Status = (Status)request.TicketStatus;
+            getTicket.UpdateOn = DateTime.Now;
+
+            await _ticketRepository.UpdateAsync(getTicket);
+
+            var identifierId = Guid.NewGuid();
+
+            var updateTicket = new UpdateTicketEvent()
+            {
+                EventIdentifierId = identifierId,
+                UpdatedStatus = (int)getTicket.Status,
+                TicketName = getTicket.Name
+
+            };
+
+            var updatetTicketOutbox = new TicketOutbox()
+            {
+                Id = identifierId,
+                OccuredOn = DateTime.Now,
+                EventType = updateTicket.GetType().Name,
+                EventPayload = JsonSerializer.Serialize(updateTicket),
+                EventStatus = EventStatus.Pending
+            };
+            await _ticketOutboxRepository.AddAsync(updatetTicketOutbox);
+            await _unitOfWork.CommitAsync();
+
+            return BaseResponseDto.SuccessResponse();
+        }
+        catch (Exception e)
+        {
+            await _unitOfWork.RollbackAsync();
+            return BaseResponseDto.ErrorResponse(e.Message);
+        }
+
+    }
+}

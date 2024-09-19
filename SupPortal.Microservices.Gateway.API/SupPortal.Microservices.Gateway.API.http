@@ -1,0 +1,6 @@
+@SupPortal.Microservices.Gateway.API_HostAddress = http://localhost:5116
+
+GET {{SupPortal.Microservices.Gateway.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
