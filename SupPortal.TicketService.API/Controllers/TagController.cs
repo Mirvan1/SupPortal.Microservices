@@ -14,7 +14,7 @@ public class TagController : BaseController
 
 
     [HttpGet]
-    public async Task<IActionResult> Get(GetAllTagsQuery query)
+    public async Task<IActionResult> Get([FromQuery]GetAllTagsQuery query)
     {
         return Ok(await _mediator.Send(query));
     }
@@ -28,7 +28,7 @@ public class TagController : BaseController
 
 
     [HttpDelete("{Id}")]
-    public async Task<IActionResult> Post(int Id)
+    public async Task<IActionResult> Delete(int Id)
     {
         return Ok(await _mediator.Send(new DeleteCommentCommand() { CommentId=Id}));
     }

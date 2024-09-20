@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace SupPortal.NotificationService.API.Consumers;
 
-public class MailNotificationConsumer (IRepository<MailInbox> _mailInboxRepository,IMailService _mailService): IConsumer<CreateTicketEvent>,IConsumer<CreateCommentEvent>
+public class MailNotificationConsumer (IRepository<MailInbox> _mailInboxRepository,IMailService _mailService): IConsumer<CreateTicketEvent>,IConsumer<CreateCommentEvent>, IConsumer<UpdateTicketEvent>
 {
     public async Task Consume(ConsumeContext<CreateTicketEvent> context)
     {

@@ -10,6 +10,7 @@ namespace SupPortal.UserService.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UserController(IUserService _userService) : ControllerBase
 {
 
@@ -36,8 +37,16 @@ public class UserController(IUserService _userService) : ControllerBase
     [HttpGet("get-logged-user")]
     public async Task<IActionResult> GetUser()
     {
-        return Ok(await _userService.GetUser());
+        var res = await _userService.GetUser();
+        return Ok(res);
     }
 
+    [HttpGet("user-by-email"),AllowAnonymous]
+
+    public async Task<IActionResult> GetUser([FromQuery]string email)
+    {
+        var res = await _userService.GetUser(email);
+        return Ok(res);
+    }
 
 }

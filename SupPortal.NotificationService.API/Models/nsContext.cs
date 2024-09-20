@@ -48,6 +48,8 @@ public class nsContext : DbContext
 
             entity.Property(e => e.Processed)
                   .IsRequired();
+            entity.Property(e => e.EventError)
+               .IsRequired(false);
         });
 
 

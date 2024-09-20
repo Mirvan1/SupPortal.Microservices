@@ -19,15 +19,14 @@ public class ProcessMailService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
 
-        _timer =   new Timer( _ =>
+        _timer =   new Timer(async _ =>
         {
             using (var scope = _scopeFactory.CreateScope())
             {
                 var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
-                Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    mailService.ProcessMail();
-
+                    await mailService.ProcessMail();
                 });
             }
         }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));

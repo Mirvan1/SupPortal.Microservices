@@ -24,7 +24,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IMailService, MailService>();
-//builder.Services.AddTransient<IHostedService, ProcessMailService>();
+
+builder.Services.AddScoped<IAuthSettings, AuthSettings>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMassTransit(cfg =>
 {
@@ -70,6 +72,9 @@ builder.Services.AddMassTransit(cfg =>
 
 builder.Services.AddHostedService<ProcessMailService>();
 
+builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,11 +83,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseHealthChecks("/health");
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
+app.UseAuthorization(); app.MapGet("/test", (IAuthSettings userService) =>
+{
+    var email = userService.GetUser("mirvan");
+    return Results.Ok(new { UserId = 1, Email = email });
+});
 app.MapControllers();
 
 app.Run();

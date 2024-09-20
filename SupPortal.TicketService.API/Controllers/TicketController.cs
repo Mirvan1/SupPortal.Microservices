@@ -14,11 +14,16 @@ public class TicketController : BaseController
     {
     }
 
-
     [HttpGet]
-    public async Task<IActionResult> Get(GetTicketQuery query)
+    public async Task<IActionResult> Get([FromQuery] GetAllTicketsQuery query)
     {
         return Ok(await _mediator.Send(query));
+    }
+
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> Get(int Id)
+    {
+        return Ok(await _mediator.Send(new GetTicketQuery() { Id=Id}));
     }
 
 

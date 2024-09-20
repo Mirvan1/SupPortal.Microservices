@@ -84,11 +84,15 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
     }
 
 
-    public async Task<User> GetUser()
+    public async Task<User> GetUser(string? Username=null)
     {
-        var getUserEmail = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        if (string.IsNullOrEmpty(Username))
+        {
+            Username = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
 
-        return await _userRepository.GetUserByUsernameAsync(getUserEmail);
+        }
+        return await _userRepository.GetUserByUsernameAsync(Username);
+
     }
 
 

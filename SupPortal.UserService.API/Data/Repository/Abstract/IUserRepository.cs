@@ -12,7 +12,7 @@ public interface IUserRepository
     void Delete(User entity);
     Task<int> SaveChangesAsync();
 
-    Task<User> GetUserByUsernameAsync(string username);
+    Task<User> GetUserByUsernameAsync(string username, bool isInclude = false);
     Task<User> GetUserByEmailAsync(string email);
     Task<Role> GetStandUserRole();
 

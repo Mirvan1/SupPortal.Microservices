@@ -14,7 +14,7 @@ public class CommentController : BaseController
 
 
     [HttpGet]
-    public async Task<IActionResult> Get(GetAllCommentsByTicketQuery query)
+    public async Task<IActionResult> Get([FromQuery]GetAllCommentsByTicketQuery query)
     {
         return Ok(await _mediator.Send(query));
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupPortal.NotificationService.API.Models;
 
@@ -11,9 +12,11 @@ using SupPortal.NotificationService.API.Models;
 namespace SupPortal.NotificationService.API.Migrations
 {
     [DbContext(typeof(nsContext))]
-    partial class nsContextModelSnapshot : ModelSnapshot
+    [Migration("20240920234325_error_event_col")]
+    partial class error_event_col
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

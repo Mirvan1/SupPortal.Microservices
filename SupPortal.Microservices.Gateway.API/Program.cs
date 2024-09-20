@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -35,6 +36,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+
 var app = builder.Build();
 
 
@@ -44,6 +47,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseHealthChecksUI(opt =>
+{
+    opt.UIPath = "/monitoring-ui";
+    opt.UseRelativeApiPath = true;
+});
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -56,7 +64,6 @@ app.UseSwaggerForOcelotUI(opt =>
 }).UseOcelot().Wait();
 
 
- 
 app.MapControllers();
 
 app.Run();

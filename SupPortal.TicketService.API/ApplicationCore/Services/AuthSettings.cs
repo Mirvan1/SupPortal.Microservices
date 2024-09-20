@@ -1,4 +1,4 @@
-﻿using SupPortal.TicketService.API.ApplicationCore.Interface;
+﻿ using SupPortal.TicketService.API.ApplicationCore.Interface;
 using System.Security.Claims;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Services;
@@ -14,6 +14,5 @@ public class AuthSettings(IHttpContextAccessor _httpContextAccessor) :IAuthSetti
     public string GetLoggedUserRole()
     {
         return _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
-
     }
 }

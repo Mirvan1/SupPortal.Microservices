@@ -6,4 +6,6 @@ public class MailInbox
     public string EventPayload { get; set; }
     public string EventType { get; set; }
     public bool Processed { get; set; }
+
+    public string? EventError { get; set; }
 }

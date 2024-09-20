@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mirvan\\source\\repos\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj": {}
+    "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mirvan\\source\\repos\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj": {
+    "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mirvan\\source\\repos\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj",
+        "projectUniqueName": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj",
         "projectName": "SupPortal.Shared",
-        "projectPath": "C:\\Users\\Mirvan\\source\\repos\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj",
+        "projectPath": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.Shared\\SupPortal.Shared.csproj",
         "packagesPath": "C:\\Users\\Mirvan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mirvan\\source\\repos\\SupPortal.Microservices\\SupPortal.Shared\\obj\\",
+        "outputPath": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mirvan\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -48,12 +48,16 @@ namespace SupPortal.UserService.API.Data.Repository.Concrete;
             return await _context.SaveChangesAsync();
         }
 
-    public async Task<User?> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username,bool isInclude=false)
     {
-        return await _context.Users
+        if (isInclude)
+            return await _context.Users
             .Include(u => u.Role)
             .Include(u => u.Profile)
             .FirstOrDefaultAsync(u => u.Username == username);
+        else
+            return await _context.Users
+           .FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public async Task<User?> GetUserByEmailAsync(string email)

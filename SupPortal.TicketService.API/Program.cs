@@ -123,6 +123,12 @@ builder.Services.AddHangfireServer();
 
 
 builder.Services.AddTransient<OutboxPublishJob>();
+
+builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    //.AddSqlServer(builder.Configuration.GetConnectionString("HangfireConnection"));
+
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -141,8 +147,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHangfireDashboard();
 
+app.UseHangfireDashboard();
+app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
