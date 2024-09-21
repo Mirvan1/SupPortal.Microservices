@@ -57,40 +57,43 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                         SenderAddress = await _authSettings.GetUser(username),
                         Username = username,
                     };
-
-                    switch (mail.EventType)
+                    if (!string.IsNullOrEmpty(newMail.SenderAddress) && !string.IsNullOrEmpty(newMail.Username))
                     {
-                        case nameof(CreateTicketEvent):
-                            newMail.Subject = "Your Ticket Created Successfully";
-                            newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/create-ticket-template.html").Replace("{{Ticket_Name}}",eventPayload.TicketName).Replace("{{User}}", newMail.Username).Replace("{{Ticket_Link}}", "");
+                        string? TicketName = eventPayload.TicketName;
+                        switch (mail.EventType)
+                        {
+                            case nameof(CreateTicketEvent):
+                                newMail.Subject = "Your Ticket Created Successfully";
+                                newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/create-ticket-template.html").Replace("{Ticket_Name}", TicketName).Replace("{User}", newMail.Username).Replace("{Ticket_Link}", "");
 
-                            _logger.LogInformation("");
-                            SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                _logger.LogInformation("");
+                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
 
-                            break;
+                                break;
 
-                        case nameof(CreateCommentEvent):
-                            newMail.Subject = "Your Comment Published Successfully";
-                            newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/create-comment-template.html").Replace("{{Comment_Link}}", "").Replace("{{User}}", newMail.Username);
+                            case nameof(CreateCommentEvent):
+                                newMail.Subject = "Your Comment Published Successfully";
+                                newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/create-comment-template.html").Replace("{Comment_Link}", "").Replace("{User}", newMail.Username);
 
-                            _logger.LogInformation("");
-                            SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
-                            break;
+                                _logger.LogInformation("");
+                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                break;
 
-                        case nameof(UpdateTicketEvent):
-                            newMail.Subject = "Your Ticket Updated Successfully";
-                            newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/update-ticket-template.html").Replace("{{Ticket_Name}}", eventPayload.TicketName).Replace("{{User}}", newMail.Username);
+                            case nameof(UpdateTicketEvent):
+                                newMail.Subject = "Your Ticket Updated Successfully";
+                                newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/update-ticket-template.html").Replace("{Ticket_Name}", TicketName).Replace("{User}", newMail.Username);
 
-                            _logger.LogInformation("");
-                            SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
-                            break;
+                                _logger.LogInformation("");
+                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                break;
+                        }
+
+                        await _mailRepository.AddAsync(newMail);
+                        await _mailRepository.SaveChangesAsync();
+                        //TODO: imp uow
+                        _mailInboxRepository.Update(mail);
+                        await _mailInboxRepository.SaveChangesAsync();
                     }
-
-                    await _mailRepository.AddAsync(newMail);
-                    await _mailRepository.SaveChangesAsync();
-                    //TODO: imp uow
-                    _mailInboxRepository.Update(mail);
-                    await _mailInboxRepository.SaveChangesAsync();
                 }
 
                 catch (Exception e)
@@ -102,6 +105,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                     _logger.LogError(""+e.Message);
 
                     Console.WriteLine(e.Message);
+                    throw;
                 }
 
 
@@ -120,7 +124,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
             {
                 MailboxAddress emailFrom = new MailboxAddress(_mailSettings.SenderName, _mailSettings.SenderEmail);
                 emailMessage.From.Add(emailFrom);
-                MailboxAddress emailTo = new MailboxAddress(sendEmailDto.Email, sendEmailDto.Username);
+                MailboxAddress emailTo = new MailboxAddress( sendEmailDto.Username, sendEmailDto.Email);
                 emailMessage.To.Add(emailTo);
 
                 emailMessage.Subject = sendEmailDto.Subject;

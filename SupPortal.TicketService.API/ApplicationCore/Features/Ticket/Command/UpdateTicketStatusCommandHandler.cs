@@ -37,7 +37,8 @@ public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRe
             {
                 EventIdentifierId = identifierId,
                 UpdatedStatus = (int)getTicket.Status,
-                TicketName = getTicket.Name
+                TicketName = getTicket.Name,
+                UserName=_authSettings.GetLoggedUsername(),
 
             };
 

@@ -9,4 +9,22 @@ public class QueryParameters
     public string? SearchText { get; set; } = string.Empty;
 
 
+    public QueryParameters(int pageNumber,int pageSize)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+    }
+
+    public QueryParameters(int pageNumber, int pageSize, string? sortBy, bool? isSortDescending)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+        SortBy = sortBy;
+        IsSortDescending = isSortDescending;
+    }
+
+    public QueryParameters()
+    {
+        
+    }
 }

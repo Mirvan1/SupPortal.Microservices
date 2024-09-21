@@ -12,4 +12,6 @@ public class UpdateTicketEvent
 
     public Guid EventIdentifierId { get; set; }
 
+    public string UserName { get; set; }
+
 }

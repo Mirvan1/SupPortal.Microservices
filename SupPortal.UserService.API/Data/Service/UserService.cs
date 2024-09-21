@@ -17,7 +17,7 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
         if (string.IsNullOrWhiteSpace(request.Username) && string.IsNullOrWhiteSpace(request.Password))
             return BaseResponse.Response<LoginUserResponseDto>(false);
 
-        var getUser = await _userRepository.GetUserByUsernameAsync(request.Username);
+        var getUser = await _userRepository.GetUserByUsernameAsync(request.Username,true);
 
         if (getUser is null) return BaseResponse.Response<LoginUserResponseDto>(false);
 
@@ -39,6 +39,9 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
 
     public async Task<BaseResponse> Register(RegisterUserRequestDto requestDto)
     {
+        var checkUserExist = await _userRepository.GetUserByEmailAsync(requestDto.Email);
+        if (checkUserExist is not null) return BaseResponse.Response(false);
+
 
         var user = new User()
         {

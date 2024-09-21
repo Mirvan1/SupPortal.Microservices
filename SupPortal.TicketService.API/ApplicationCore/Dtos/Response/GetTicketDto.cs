@@ -1,6 +1,6 @@
 ﻿namespace SupPortal.TicketService.API.ApplicationCore.Dtos.Response;
 
-public class GetTicketDto
+public class GetTicketDto:BaseResponseDto
 {
     public string Name { get; set; }
     public string Description { get; set; }

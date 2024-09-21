@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.Server;
 using HealthChecks.UI.Client;
@@ -18,6 +19,7 @@ using SupPortal.TicketService.API.ApplicationCore.Jobs;
 using SupPortal.TicketService.API.ApplicationCore.Services;
 using SupPortal.TicketService.API.Infrastructure.Data;
 using SupPortal.TicketService.API.Infrastructure.Extension;
+using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -35,6 +37,7 @@ var logger = new LoggerConfiguration()
    .CreateLogger();
 
 builder.Logging.AddSerilog(logger);
+builder.Services.AddFluentValidationAutoValidation();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -79,21 +82,14 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ticket API", Version = "v1" });
 
-    // If using JWT Authentication
-    var securityScheme = new OpenApiSecurityScheme
+    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
+        Description = "Standart Authorize header using the Bearer scheme (\"bearer {token}\")",
         In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme."
-    };
-    c.AddSecurityDefinition("Bearer", securityScheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        { securityScheme, new string[] { } }
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
     });
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddMediatR(cfg =>
 {
