@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\SupPortal.Microservices.Gateway.API.props" />
-</Project>

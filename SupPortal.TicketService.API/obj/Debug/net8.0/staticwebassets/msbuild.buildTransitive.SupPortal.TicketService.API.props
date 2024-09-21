@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\SupPortal.TicketService.API.props" />
-</Project>
