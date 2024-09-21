@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Comment.Command;
 
-public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICommentRepository _commentRepository, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository,IAuthSettings _authSettings)
+public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICommentRepository _commentRepository, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository,IAuthSettings _authSettings,ILogger<CreateCommentCommandHandler> _logger)
         : IRequestHandler<CreateCommentCommand, BaseResponseDto>
 
 {
@@ -18,6 +18,7 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
         try
         {
             await _unitOfWork.BeginTransactionAsync();
+            _logger.LogInformation("");
 
             var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
 
@@ -55,6 +56,7 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
             await _ticketOutboxRepository.AddAsync(outboxCommentEvent);
            // await _ticketOutboxRepository.SaveChangesAsync();
             await _unitOfWork.CommitAsync();
+            _logger.LogInformation("");
 
 
             return BaseResponseDto.SuccessResponse();
@@ -62,6 +64,8 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
         catch(Exception e)
         {
             await _unitOfWork.RollbackAsync();
+            _logger.LogError(""+e.Message);
+
             return BaseResponseDto.ErrorResponse(e.Message);
 
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SupPortal.NotificationService.API.Models.Entities;
 
-namespace SupPortal.NotificationService.API.Models;
+namespace SupPortal.NotificationService.API.Data;
 
 public class nsContext : DbContext
 {

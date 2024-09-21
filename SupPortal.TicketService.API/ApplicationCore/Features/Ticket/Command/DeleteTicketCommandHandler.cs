@@ -5,7 +5,7 @@ using SupPortal.TicketService.API.ApplicationCore.Interface;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Ticket.Command;
 
-public class DeleteTicketCommandHandler(IAuthSettings _authSettings,ITicketRepository _ticketRepository) : IRequestHandler<DeleteTicketCommand, BaseResponseDto>
+public class DeleteTicketCommandHandler(IAuthSettings _authSettings,ITicketRepository _ticketRepository,ILogger<DeleteTicketCommandHandler> _logger) : IRequestHandler<DeleteTicketCommand, BaseResponseDto>
 {
     public async Task<BaseResponseDto> Handle(DeleteTicketCommand request, CancellationToken cancellationToken)
     {
@@ -19,8 +19,10 @@ public class DeleteTicketCommandHandler(IAuthSettings _authSettings,ITicketRepos
         if(!getTicket.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse("");
 
         await _ticketRepository.DeleteAsync(getTicket);
-        await _ticketRepository.SaveChangesAsync();
+        int res = await _ticketRepository.SaveChangesAsync();
 
-        return BaseResponseDto.SuccessResponse();
+        _logger.LogInformation("");
+
+        return BaseResponseDto.Response(res>0);
     }
 }

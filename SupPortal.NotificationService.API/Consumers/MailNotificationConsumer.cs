@@ -12,18 +12,18 @@ public class MailNotificationConsumer (IRepository<MailInbox> _mailInboxReposito
     public async Task Consume(ConsumeContext<CreateTicketEvent> context)
     {
 
-       await _mailService.SendMail(context.Message.EventIdentifierId,JsonSerializer.Serialize(context.Message),context.Message.GetType().Name);
+       await _mailService.ReceiveMail(context.Message.EventIdentifierId,JsonSerializer.Serialize(context.Message),context.Message.GetType().Name);
     }
 
     public async Task Consume(ConsumeContext<CreateCommentEvent> context)
     {
-        await _mailService.SendMail(context.Message.EventIdentifierId, JsonSerializer.Serialize(context.Message), context.Message.GetType().Name);
+        await _mailService.ReceiveMail(context.Message.EventIdentifierId, JsonSerializer.Serialize(context.Message), context.Message.GetType().Name);
     }
 
 
     public async Task Consume(ConsumeContext<UpdateTicketEvent> context)
     {
-        await _mailService.SendMail(context.Message.EventIdentifierId, JsonSerializer.Serialize(context.Message), context.Message.GetType().Name);
+        await _mailService.ReceiveMail(context.Message.EventIdentifierId, JsonSerializer.Serialize(context.Message), context.Message.GetType().Name);
     }
 
 

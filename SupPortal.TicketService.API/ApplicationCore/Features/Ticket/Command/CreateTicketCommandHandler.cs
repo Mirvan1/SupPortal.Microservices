@@ -11,7 +11,7 @@ using System.Text.Json;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Ticket.Command;
 
-public class CreateTicketCommandHandler(ITicketRepository _ticketRepository, IMapper _mapper, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings)
+public class CreateTicketCommandHandler(ITicketRepository _ticketRepository, IMapper _mapper, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings,ILogger<CreateTicketCommandHandler> _logger)
         : IRequestHandler<CreateTicketCommand, BaseResponseDto>
 
 {
@@ -19,8 +19,12 @@ public class CreateTicketCommandHandler(ITicketRepository _ticketRepository, IMa
     {
         try
         {
+            var loggedUserName = _authSettings.GetLoggedUsername();
+
+            if (string.IsNullOrEmpty(loggedUserName)) return BaseResponseDto.ErrorResponse("");
+
             await _unitOfWork.BeginTransactionAsync();
-            //user auth control
+            _logger.LogInformation("");
 
             var newTicket = new Domain.Entities.Ticket()
             {
@@ -51,11 +55,14 @@ public class CreateTicketCommandHandler(ITicketRepository _ticketRepository, IMa
 
             await _unitOfWork.CommitAsync();
 
+            _logger.LogInformation("");
+
             return BaseResponseDto.SuccessResponse();
         }
         catch (Exception e)
         {
             await _unitOfWork.RollbackAsync();
+            _logger.LogError(""+e.Message);
             return BaseResponseDto.ErrorResponse(e.Message);
 
         }

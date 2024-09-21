@@ -1,7 +1,6 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using SupPortal.NotificationService.API.Consumers;
-using SupPortal.NotificationService.API.Models;
 using SupPortal.NotificationService.API.Repository.Abstract;
 using SupPortal.NotificationService.API.Repository.Concrete;
 using SupPortal.NotificationService.API.Service;
@@ -11,8 +10,25 @@ using System.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using SupPortal.NotificationService.API.Data;
+using Microsoft.Extensions.Options;
+using SupPortal.NotificationService.API.Models.DTOs;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+var logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(
+    new ConfigurationBuilder().AddJsonFile("serilog.json").Build()
+    )
+   .Enrich.FromLogContext()
+   .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
+
 
 // Add services to the container.
 
@@ -71,32 +87,34 @@ builder.Services.AddMassTransit(cfg =>
     });
 });
 
+     var mailSettingsInstance = new MailSettingsDto();
+    var mailSettings = builder.Configuration.GetSection("MailSettings");
+    mailSettings.Bind(mailSettingsInstance);
+     builder.Services.AddSingleton<IOptions<MailSettingsDto>>(new OptionsWrapper<MailSettingsDto>(mailSettingsInstance));
 
-builder.Services.AddHostedService<ProcessMailService>();
+
+    builder.Services.AddHostedService<ProcessMailService>();
 
 builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-var app = builder.Build();
+    var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-app.UseHealthChecks("/health", new HealthCheckOptions
-{
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+    app.UseHealthChecks("/health", new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
 
-app.UseAuthorization(); app.MapGet("/test", (IAuthSettings userService) =>
-{
-    var email = userService.GetUser("mirvan");
-    return Results.Ok(new { UserId = 1, Email = email });
-});
-app.MapControllers();
 
-app.Run();
+    app.MapControllers();
+
+
+    app.Run();

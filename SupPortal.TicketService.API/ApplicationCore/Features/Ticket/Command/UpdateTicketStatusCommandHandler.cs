@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Ticket.Command;
 
-public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRepository _ticketRepository, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings) : IRequestHandler<UpdateTicketStatusCommand, BaseResponseDto>
+public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRepository _ticketRepository, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings,ILogger<UpdateTicketStatusCommandHandler> _logger) : IRequestHandler<UpdateTicketStatusCommand, BaseResponseDto>
 {
     public async Task<BaseResponseDto> Handle(UpdateTicketStatusCommand request, CancellationToken cancellationToken)
     {
@@ -20,6 +20,7 @@ public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRe
             if (loggedUserRole.Equals("User")) return BaseResponseDto.ErrorResponse("");
 
             await _unitOfWork.BeginTransactionAsync();
+            _logger.LogInformation("");
 
             var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
 
@@ -51,11 +52,15 @@ public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRe
             await _ticketOutboxRepository.AddAsync(updatetTicketOutbox);
             await _unitOfWork.CommitAsync();
 
+            _logger.LogInformation("");
+
             return BaseResponseDto.SuccessResponse();
         }
         catch (Exception e)
         {
             await _unitOfWork.RollbackAsync();
+            _logger.LogError("");
+
             return BaseResponseDto.ErrorResponse(e.Message);
         }
 

@@ -3,6 +3,6 @@
 public interface IMailService
 {
 
-    Task SendMail(Guid identifierId, string Payload, string EventType);
+    Task ReceiveMail(Guid identifierId, string Payload, string EventType);
     Task ProcessMail();
 }

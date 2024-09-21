@@ -42,9 +42,9 @@ public class ExceptionMiddleware
 
 public class ErrorDetail
 {
-    public ErrorDetail(string _ErrorMessage)
+    public ErrorDetail(string errorMessage)
     {
-        ErrorMessage = _ErrorMessage;
+        ErrorMessage = errorMessage;
         isSuccess = false;
     }
     private bool isSuccess { get; set; } = false;

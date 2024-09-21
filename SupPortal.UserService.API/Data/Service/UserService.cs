@@ -9,7 +9,7 @@ using SupPortal.UserService.API.Models.Dto;
 
 namespace SupPortal.UserService.API.Data.Service;
 
-public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _mapper, IUserRepository _userRepository) :IUserService
+public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _mapper, IUserRepository _userRepository,ILogger<UserService> _logger) :IUserService
 {
 
     public async Task<LoginUserResponseDto> Login(LoginUserRequestDto request)
@@ -30,6 +30,8 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
         getUser.Profile.LastLogin = DateTime.Now;
         _userRepository.Update(getUser);
        await _userRepository.SaveChangesAsync();
+
+        _logger.LogInformation("");
 
         return new LoginUserResponseDto() { IsSuccess = true, Token = CreateToken(getUser) };
     }
@@ -115,6 +117,7 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
 
         var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(3), signingCredentials: cred);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
         return jwt;
     }
 

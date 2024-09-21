@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SupPortal.UserService.API.Data.Context;
 using SupPortal.UserService.API.Data.Repository.Abstract;
 using SupPortal.UserService.API.Data.Repository.Concrete;
@@ -14,8 +15,18 @@ using SupPortal.UserService.API.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+var logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(
+    new ConfigurationBuilder().AddJsonFile("serilog.json").Build()
+    )
+   .Enrich.FromLogContext()
+   .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();

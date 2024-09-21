@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Filters;
 using SupPortal.Shared;
 using SupPortal.Shared.Events;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
@@ -25,6 +27,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+var logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(
+    new ConfigurationBuilder().AddJsonFile("serilog.json").Build()
+    )
+   .Enrich.FromLogContext()
+   .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -149,6 +160,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHangfireDashboard();
 app.UseHealthChecks("/health", new HealthCheckOptions

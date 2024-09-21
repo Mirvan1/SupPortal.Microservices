@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SupPortal.NotificationService.API.Models;
+using SupPortal.NotificationService.API.Data;
 using SupPortal.NotificationService.API.Repository.Abstract;
 
 namespace SupPortal.NotificationService.API.Repository.Concrete;
