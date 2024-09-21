@@ -3,6 +3,7 @@ using SupPortal.Shared;
 using SupPortal.Shared.Events;
 using SupPortal.TicketService.API.ApplicationCore.Interface;
 using System.Text.Json;
+using System.Windows.Input;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Services;
 

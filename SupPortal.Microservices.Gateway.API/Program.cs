@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using SupPortal.Microservices.Gateway.API;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,7 +53,7 @@ app.UseHealthChecksUI(opt =>
     opt.UIPath = "/monitoring-ui";
     opt.UseRelativeApiPath = true;
 });
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 

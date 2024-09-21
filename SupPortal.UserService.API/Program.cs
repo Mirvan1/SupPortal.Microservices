@@ -1,6 +1,8 @@
 using System.Reflection;
 using System.Text;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,6 +10,7 @@ using SupPortal.UserService.API.Data.Context;
 using SupPortal.UserService.API.Data.Repository.Abstract;
 using SupPortal.UserService.API.Data.Repository.Concrete;
 using SupPortal.UserService.API.Data.Service;
+using SupPortal.UserService.API.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,8 +75,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "User API v1"));
 }
-app.UseHealthChecks("/health");
-
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

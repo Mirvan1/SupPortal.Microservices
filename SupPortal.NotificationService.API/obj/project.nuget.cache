@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ejCWRwOKf0cMlM+Dgho51nve7lScqVLcEgAJusO1BFVW5Caq55XuU7CUo2iouurgjvKZ/0JjWDsWdhcnFVXymA==",
+  "dgSpecHash": "hI62elgJGm6BE12DNj92+bN6w0hQQ7or1B3pOGg7986QxnLLcq8XbLzSEu5E27FB+RyiLylDdqXkwxJZF+klEg==",
   "success": true,
   "projectFilePath": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.NotificationService.API\\SupPortal.NotificationService.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\8.0.2\\aspnetcore.healthchecks.sqlserver.8.0.2.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\8.0.1\\aspnetcore.healthchecks.ui.client.8.0.1.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.core\\8.0.1\\aspnetcore.healthchecks.ui.core.8.0.1.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "zEVLOLL7hvfiAFbUy5apinME6oaT/q4snFMboeYxeOsHltG6ea1FWN7EmuxN3jazuLJvxt5QpWdB08wS+ZibeQ==",
+  "dgSpecHash": "9RphvMvAPb4xdN4OVYyltVHnnscnfq0L+v/7xxCz46zSSTaEImrqOzFm+/ndW+THd4lk2H2QSwG/6xXV4DS84A==",
   "success": true,
   "projectFilePath": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.UserService.API\\SupPortal.UserService.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\8.0.2\\aspnetcore.healthchecks.sqlserver.8.0.2.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\8.0.1\\aspnetcore.healthchecks.ui.client.8.0.1.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.core\\8.0.1\\aspnetcore.healthchecks.ui.core.8.0.1.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

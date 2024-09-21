@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "V8vVibKlhFVr7cHwJ5BqZce7S/Hg4fgSKg5d7ttCcUiNKpx+w8Q89AUZTjEiGXXpdtOdr6qWmNya4Kh7Bq06tg==",
+  "dgSpecHash": "DmD5nPONtd0YPVl2hIuEE2+P+AOe0MJ1nduspbrgy9Ne8pQGcMvTRi+1e/X7kyqOABoAKd9JzVhs5KHCaL6CoQ==",
   "success": true,
   "projectFilePath": "C:\\PROJECTS\\SupPortal.Microservices\\SupPortal.TicketService.API\\SupPortal.TicketService.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\8.0.2\\aspnetcore.healthchecks.sqlserver.8.0.2.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\8.0.1\\aspnetcore.healthchecks.ui.client.8.0.1.nupkg.sha512",
+    "C:\\Users\\Mirvan\\.nuget\\packages\\aspnetcore.healthchecks.ui.core\\8.0.1\\aspnetcore.healthchecks.ui.core.8.0.1.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Mirvan\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
