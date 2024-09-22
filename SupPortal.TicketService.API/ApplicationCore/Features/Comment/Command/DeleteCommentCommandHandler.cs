@@ -15,9 +15,9 @@ public class DeleteCommentCommandHandler(IAuthSettings _authSettings, ICommentRe
 
         var getComment = await _commentRepository.GetByIdAsync(request.CommentId);
 
-        if (getComment is null) return BaseResponseDto.ErrorResponse("");
+        if (getComment is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.BadRequest);
 
-        if (!getComment.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse("");
+        if (!getComment.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
         await _commentRepository.DeleteAsync(getComment);
         await _commentRepository.SaveChangesAsync();

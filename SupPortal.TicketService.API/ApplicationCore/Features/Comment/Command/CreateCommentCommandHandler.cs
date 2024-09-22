@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Comment.Command;
 
-public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICommentRepository _commentRepository, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository,IAuthSettings _authSettings,ILogger<CreateCommentCommandHandler> _logger)
+public class CreateCommentCommandHandler(ITicketRepository _ticketRepository, ICommentRepository _commentRepository, IUnitOfWork _unitOfWork, ITicketOutboxRepository _ticketOutboxRepository, IAuthSettings _authSettings, ILogger<CreateCommentCommandHandler> _logger)
         : IRequestHandler<CreateCommentCommand, BaseResponseDto>
 
 {
@@ -17,18 +17,18 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
     {
         try
         {
-            await _unitOfWork.BeginTransactionAsync();
-            _logger.LogInformation("");
-
             var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
 
-            if (getTicket is null) return BaseResponseDto.ErrorResponse("");
+            if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.BadRequest);
+
+            await _unitOfWork.BeginTransactionAsync();
+            _logger.LogInformation("");
 
             var newComment = new Domain.Entities.Comment()
             {
                 Content = request.CommentContent,
                 TicketId = request.TicketId,
-                UserName=  _authSettings.GetLoggedUsername()
+                UserName = _authSettings.GetLoggedUsername()
             };
 
             await _commentRepository.AddAsync(newComment);
@@ -37,14 +37,14 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
             var identifierId = Guid.NewGuid();
             var commentEvent = new CreateCommentEvent()
             {
-                TicketOwnerUsername = getTicket.UserName, 
-                CommentOwnerUsername =   _authSettings.GetLoggedUsername(),
+                TicketOwnerUsername = getTicket.UserName,
+                CommentOwnerUsername = _authSettings.GetLoggedUsername(),
                 CommentContent = request.CommentContent,
-                EventIdentifierId=identifierId
+                EventIdentifierId = identifierId
             };
-            
 
-            var outboxCommentEvent = new    TicketOutbox()
+
+            var outboxCommentEvent = new TicketOutbox()
             {
                 Id = identifierId,
                 OccuredOn = DateTime.Now,
@@ -54,17 +54,17 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository,ICo
             };
 
             await _ticketOutboxRepository.AddAsync(outboxCommentEvent);
-           // await _ticketOutboxRepository.SaveChangesAsync();
+            // await _ticketOutboxRepository.SaveChangesAsync();
             await _unitOfWork.CommitAsync();
             _logger.LogInformation("");
 
 
             return BaseResponseDto.SuccessResponse();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             await _unitOfWork.RollbackAsync();
-            _logger.LogError(""+e.Message);
+            _logger.LogError("" + e.Message);
 
             return BaseResponseDto.ErrorResponse(e.Message);
 
