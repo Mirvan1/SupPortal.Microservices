@@ -2,7 +2,7 @@
 Developed microservices using Saga-Choreography, and Inbox-Outbox patterns for eventual consistency. Integrated MassTransit with RabbitMQ for message brokering and consistent data changes.
 
 ## SupPortal.Microservices.Gateway.API
-Implemented API Gateway with authentication, authorization, Swagger merging, and Health Check UI.
+Implemented API Gateway using Ocelot library with authentication, authorization, Swagger merging, and Health Check UI.
 
 ## SupPortal.TicketService.API
 Developed CQRS pattern with MediatR. Technologies: MassTransit, Hangfire, FluentValidation, MediatR, AutoMapper, Serilog, Health Check and etc.
