@@ -88,8 +88,18 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
         return BaseResponse.Response(res > 0);
     }
 
+    public async Task<GetUserDto> GetUserInfo(string? Username = null)
+    {
+        if (string.IsNullOrEmpty(Username))
+        {
+            Username = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        }
+        var user = await _userRepository.GetUserByUsernameAsync(Username);
+        return new GetUserDto(user.Username, user.Email, user.FirstName, user.LastName, user.IsActive) { IsSuccess = true };
+    }
 
-    public async Task<User> GetUser(string? Username=null)
+
+    private async Task<User> GetUser(string? Username=null)
     {
         if (string.IsNullOrEmpty(Username))
         {
@@ -99,9 +109,7 @@ public class UserService(IHttpContextAccessor _httpContextAccessor, IMapper _map
         return await _userRepository.GetUserByUsernameAsync(Username);
 
     }
-
-
-
+ 
 
     private static string CreateToken(User user)
     {

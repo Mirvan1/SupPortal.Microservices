@@ -10,5 +10,10 @@ public class TagRepository : GenericRepository<Tag>, ITagRepository
     public TagRepository(tsContext context) : base(context)
     {
     }
+
+    public async Task<Tag> GetByName(string name)
+    {
+      return await _dbSet.FirstOrDefaultAsync(x => x.Name.Equals(name));
+    }
 }
 

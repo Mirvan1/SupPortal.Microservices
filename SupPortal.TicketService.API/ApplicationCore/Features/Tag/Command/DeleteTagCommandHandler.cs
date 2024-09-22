@@ -15,7 +15,7 @@ public class DeleteTagCommandHandler(IAuthSettings _authSettings,ITagRepository 
 
         var getTag = await _tagRepository.GetByIdAsync(request.TagId);
 
-        if (getTag is null) return BaseResponseDto.ErrorResponse("");
+        if (getTag is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 
         if (!getTag.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse("");
 

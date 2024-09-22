@@ -17,14 +17,14 @@ public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRe
         {
             var loggedUserRole = _authSettings.GetLoggedUserRole();
 
-            if (loggedUserRole.Equals("User")) return BaseResponseDto.ErrorResponse("");
+            if (loggedUserRole.Equals("User")) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
             await _unitOfWork.BeginTransactionAsync();
             _logger.LogInformation("");
 
             var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
 
-            if (getTicket is null) return BaseResponseDto.ErrorResponse("");
+            if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 
             getTicket.Status = (Status)request.TicketStatus;
             getTicket.UpdateOn = DateTime.Now;

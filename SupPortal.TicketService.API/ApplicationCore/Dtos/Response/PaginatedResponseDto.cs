@@ -34,5 +34,14 @@ public class PaginatedResponseDto<T> : BaseResponseDto
             ErrorMessage = errorMessage
         };
     }
- 
+
+    public static PaginatedResponseDto<T> Failure(ConstantErrorMessages errorMessage)
+    {
+        return new PaginatedResponseDto<T>
+        {
+            isSuccess = false,
+            ErrorMessage = errorMessage.ToString()
+        };
+    }
+
 }

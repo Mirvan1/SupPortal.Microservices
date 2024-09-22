@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SupPortal.UserService.API.Data.Repository.Abstract;
 using SupPortal.UserService.API.Data.Service;
+using SupPortal.UserService.API.Extension;
 using SupPortal.UserService.API.Models.Dto;
 
 namespace SupPortal.UserService.API.Controllers;
@@ -17,19 +18,19 @@ public class UserController(IUserService _userService) : ControllerBase
     [HttpPost("register"),AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequestDto register)
     {
-        return Ok(await _userService.Register(register));
+        return  (await _userService.Register(register)).ToActionResult();
     }
  
     [HttpPost("login"), AllowAnonymous]
     public async Task<IActionResult> UserLogin(LoginUserRequestDto request)
     {
-        return Ok(await _userService.Login(request));
+        return  (await _userService.Login(request)).ToActionResult();
     }
 
     [HttpPut("update-logged-user")]
     public async Task<IActionResult> UpdateUser(UpdateUserRequestDto request)
     {
-        return Ok(await _userService.UpdateUser(request));
+        return  (await _userService.UpdateUser(request)).ToActionResult();
 
     }
  
@@ -37,16 +38,14 @@ public class UserController(IUserService _userService) : ControllerBase
     [HttpGet("get-logged-user")]
     public async Task<IActionResult> GetUser()
     {
-        var res = await _userService.GetUser();
-        return Ok(res);
+         return  (await _userService.GetUserInfo()).ToActionResult();
     }
 
-    [HttpGet("user-by-email"),AllowAnonymous]
+    [HttpGet("user-by-username"),AllowAnonymous]
 
     public async Task<IActionResult> GetUser([FromQuery]string email)
     {
-        var res = await _userService.GetUser(email);
-        return Ok(res);
+         return  (await _userService.GetUserInfo(email)).ToActionResult();
     }
 
 }

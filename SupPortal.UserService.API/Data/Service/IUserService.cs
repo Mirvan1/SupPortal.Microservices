@@ -10,5 +10,6 @@ public interface IUserService
 
     Task<BaseResponse> UpdateUser(UpdateUserRequestDto requestDto);
 
-    Task<User> GetUser(string? Username = null);
+    Task<GetUserDto> GetUserInfo(string? Username = null);
+
 }

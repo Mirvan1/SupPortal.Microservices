@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
+using SupPortal.TicketService.API.Infrastructure.Extension;
 
 namespace SupPortal.TicketService.API.Controllers;
 [Route("api/[controller]")]
@@ -16,13 +17,13 @@ public class CommentController : BaseController
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery]GetAllCommentsByTicketQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return  (await _mediator.Send(query)).ToActionResult();
     }
 
     [HttpPost]
     public async Task<IActionResult> Post(CreateCommentCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return  (await _mediator.Send(command)).ToActionResult();
     }
 
 

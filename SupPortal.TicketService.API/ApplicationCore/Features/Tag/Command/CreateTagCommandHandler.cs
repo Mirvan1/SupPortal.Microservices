@@ -11,11 +11,15 @@ public class CreateTagCommandHandler(ITagRepository _tagRepository,IMapper mappe
 {
     public async Task<BaseResponseDto> Handle(CreateTagCommand request, CancellationToken cancellationToken)
     {
+        var checkTagExist = await _tagRepository.GetByName(request.TagName);
+
+        if (checkTagExist is not null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.BadRequest);
 
         var newTag = new Domain.Entities.Tag()
         {
             Name = request.TagName
         };
+
         await _tagRepository.AddAsync(newTag);
         int res =await  _tagRepository.SaveChangesAsync();
 

@@ -19,6 +19,15 @@ public class BaseResponseDto
         };
     }
 
+    public static T ErrorResponse<T>(ConstantErrorMessages errorMessage) where T : BaseResponseDto, new()
+    {
+        return new T
+        {
+            isSuccess = false,
+            ErrorMessage = errorMessage.ToString()
+        };
+    }
+
     public static T SuccessResponse<T>() where T : BaseResponseDto, new()
     {
         return new T
@@ -34,6 +43,15 @@ public class BaseResponseDto
         {
             isSuccess = false,
             ErrorMessage = errorMessage
+        };
+    }
+
+    public static BaseResponseDto ErrorResponse(ConstantErrorMessages errorMessage)
+    {
+        return new BaseResponseDto
+        {
+            isSuccess = false,
+            ErrorMessage = errorMessage.ToString()
         };
     }
 
@@ -55,3 +73,10 @@ public class BaseResponseDto
     }
 }
 
+
+public enum ConstantErrorMessages
+{
+    UnAuthorized=0,
+    BadRequest=1,
+    NotFound=2,
+}

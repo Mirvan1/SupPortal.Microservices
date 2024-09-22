@@ -14,9 +14,9 @@ public class DeleteTicketCommandHandler(IAuthSettings _authSettings,ITicketRepos
 
         var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
 
-        if (getTicket is null) return BaseResponseDto.ErrorResponse("");
+        if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 
-        if(!getTicket.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse("");
+        if(!getTicket.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
         await _ticketRepository.DeleteAsync(getTicket);
         int res = await _ticketRepository.SaveChangesAsync();

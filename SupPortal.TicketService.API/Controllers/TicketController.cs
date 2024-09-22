@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
+using SupPortal.TicketService.API.Infrastructure.Extension;
 
 namespace SupPortal.TicketService.API.Controllers;
 [Route("api/[controller]")]
@@ -17,33 +18,33 @@ public class TicketController : BaseController
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetAllTicketsQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return  (await _mediator.Send(query)).ToActionResult();
     }
 
     [HttpGet("{Id}")]
     public async Task<IActionResult> Get(int Id)
     {
-        return Ok(await _mediator.Send(new GetTicketQuery() { Id=Id}));
+        return(await _mediator.Send(new GetTicketQuery() { Id = Id })).ToActionResult();
     }
 
 
     [HttpPost]
     public async Task<IActionResult> Post(CreateTicketCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return  (await _mediator.Send(command)).ToActionResult();
     }
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-        return Ok(await _mediator.Send(new DeleteTicketCommand() { TicketId = Id }));
+        return  (await _mediator.Send(new DeleteTicketCommand() { TicketId = Id })).ToActionResult();
     }
 
 
     [HttpPatch]
     public async Task<IActionResult> Patch(UpdateTicketStatusCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return  (await _mediator.Send(command)).ToActionResult();
     }
 
 }

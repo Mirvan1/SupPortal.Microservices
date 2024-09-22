@@ -1,14 +1,24 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Response;
+using SupPortal.TicketService.API.ApplicationCore.Interface;
 using SupPortal.TicketService.API.Infrastructure.Extension;
 
 namespace SupPortal.TicketService.API.ApplicationCore.Features.Tag.Query;
-public class GetAllTagsQueryHandler : IRequestHandler<GetAllTagsQuery, PaginatedResponseDto<GetTagDto>>
+public class GetAllTagsQueryHandler(ITagRepository _tagRepository,IMapper _mapper) : IRequestHandler<GetAllTagsQuery, PaginatedResponseDto<GetTagDto>>
 {
-    public Task<PaginatedResponseDto<GetTagDto>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResponseDto<GetTagDto>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var getTags = await _tagRepository.ToPagedListAsync(new QueryParameters(request.PageNumber, request.PageSize, request.SortBy, request.IsSortDescending));
+
+        if (getTags is null) return PaginatedResponseDto<GetTagDto>.Failure(ConstantErrorMessages.NotFound);
+
+        var mappingRes = _mapper.Map<PaginatedResponseDto<GetTagDto>>(getTags);
+
+        if (mappingRes is null) return PaginatedResponseDto<GetTagDto>.Failure(ConstantErrorMessages.NotFound);
+
+        return mappingRes;
     }
 }
 

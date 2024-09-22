@@ -21,7 +21,7 @@ public class CreateTicketCommandHandler(ITicketRepository _ticketRepository, IMa
         {
             var loggedUserName = _authSettings.GetLoggedUsername();
 
-            if (string.IsNullOrEmpty(loggedUserName)) return BaseResponseDto.ErrorResponse("");
+            if (string.IsNullOrEmpty(loggedUserName)) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
             await _unitOfWork.BeginTransactionAsync();
             _logger.LogInformation("");

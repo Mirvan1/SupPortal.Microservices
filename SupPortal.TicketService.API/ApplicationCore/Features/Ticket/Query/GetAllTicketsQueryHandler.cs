@@ -11,15 +11,15 @@ public class GetAllTicketsQueryHandler(ITicketRepository _ticketRepository,IMapp
 {
     public async Task<PaginatedResponseDto<GetTicketDto>> Handle(GetAllTicketsQuery request, CancellationToken cancellationToken)
     {
-        //user Auth control
+        //TODO user Auth control
 
         var getTickets = await _ticketRepository.ToPagedListAsync(new QueryParameters(request.PageNumber,request.PageSize,request.SortBy,request.IsSortDescending) );
 
-        if (getTickets is null) return PaginatedResponseDto<GetTicketDto>.Failure("");
+        if (getTickets is null) return PaginatedResponseDto<GetTicketDto>.Failure(ConstantErrorMessages.NotFound);
 
         var mappingRes = _mapper.Map<PaginatedResponseDto<GetTicketDto>>(getTickets);
 
-        if (mappingRes is null) return PaginatedResponseDto<GetTicketDto>.Failure("");
+        if (mappingRes is null) return PaginatedResponseDto<GetTicketDto>.Failure(ConstantErrorMessages.NotFound);
 
         return mappingRes;
     }

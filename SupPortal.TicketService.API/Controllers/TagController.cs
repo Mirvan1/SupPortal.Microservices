@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
+using SupPortal.TicketService.API.Infrastructure.Extension;
 
 namespace SupPortal.TicketService.API.Controllers;
 [Route("api/[controller]")]
@@ -16,21 +17,21 @@ public class TagController : BaseController
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery]GetAllTagsQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return (await _mediator.Send(query)).ToActionResult();
     }
 
 
     [HttpPost]
     public async Task<IActionResult> Post(CreateTagCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return  (await _mediator.Send(command)).ToActionResult();
     }
 
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-        return Ok(await _mediator.Send(new DeleteCommentCommand() { CommentId=Id}));
+        return  (await _mediator.Send(new DeleteCommentCommand() { CommentId=Id})).ToActionResult();
     }
 
 }

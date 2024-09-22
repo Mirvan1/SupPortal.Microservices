@@ -15,11 +15,11 @@ public class GetTicketQueryHandler(ITicketRepository _ticketRepository,IMapper _
 
         var getTickets = await _ticketRepository.GetByIdAsync(request.Id);
 
-        if (getTickets is null) return BaseResponseDto.ErrorResponse<GetTicketDto>("");
+        if (getTickets is null) return BaseResponseDto.ErrorResponse<GetTicketDto>(ConstantErrorMessages.NotFound);
 
         var mappingRes = _mapper.Map<GetTicketDto>(getTickets);
 
-        if (mappingRes is null) return BaseResponseDto.ErrorResponse<GetTicketDto>("");
+        if (mappingRes is null) return BaseResponseDto.ErrorResponse<GetTicketDto>(ConstantErrorMessages.NotFound);
 
         return mappingRes;
     }
