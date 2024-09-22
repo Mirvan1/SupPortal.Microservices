@@ -21,6 +21,13 @@ public class TagController : BaseController
     }
 
 
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> Get([FromQuery] GetTagQuery query)
+    {
+        return (await _mediator.Send(query)).ToActionResult();
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> Post(CreateTagCommand command)
     {

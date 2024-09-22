@@ -26,6 +26,27 @@ public class MappingProfile : Profile
                 dest.TotalCount = src.TotalCount;
             });
 
+
+        CreateMap<PaginatedList<Tag>, PaginatedResponseDto<GetTagDto>>()
+           .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Items))
+           .AfterMap((src, dest) =>
+           {
+               dest.PageNumber = src.PageNumber;
+               dest.PageSize = src.PageSize;
+               dest.TotalPages = src.TotalPages;
+               dest.TotalCount = src.TotalCount;
+           });
+
+
+        CreateMap<PaginatedList<Comment>, PaginatedResponseDto<GetCommentDto>>()
+         .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Items))
+         .AfterMap((src, dest) =>
+         {
+             dest.PageNumber = src.PageNumber;
+             dest.PageSize = src.PageSize;
+             dest.TotalPages = src.TotalPages;
+             dest.TotalCount = src.TotalCount;
+         });
     }
 }
 

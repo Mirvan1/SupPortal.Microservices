@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/ticket/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT","PATCH","DELETE" ],
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "PATCH", "DELETE" ],
       "SwaggerKey": "ticket",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -19,7 +19,40 @@
     },
 
 
- 
+
+    {
+      "DownstreamPathTemplate": "/api/user/login",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "user"
+    },
+
+
+
+    {
+      "DownstreamPathTemplate": "/api/user/register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "user"
+    },
+
+
+
+
 
     {
       "DownstreamPathTemplate": "/api/user/{everything}",
@@ -36,6 +69,7 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
+
       }
     }
 
