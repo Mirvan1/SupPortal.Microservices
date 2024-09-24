@@ -48,4 +48,21 @@ public class UserController(IUserService _userService) : ControllerBase
          return  (await _userService.GetUserInfo(email)).ToActionResult();
     }
 
+
+    [HttpPost("forgot-password"), AllowAnonymous]
+
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
+    {
+        return (await _userService.ForgotPassword(request)).ToActionResult();
+    }
+
+
+
+    [HttpPost("reset-password"), AllowAnonymous]
+
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+    {
+        return (await _userService.ResetPassword(request)).ToActionResult();
+    }
+
 }

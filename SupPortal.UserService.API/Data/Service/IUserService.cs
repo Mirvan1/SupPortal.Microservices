@@ -11,5 +11,6 @@ public interface IUserService
     Task<BaseResponse> UpdateUser(UpdateUserRequestDto requestDto);
 
     Task<GetUserDto> GetUserInfo(string? Username = null);
-
+    Task<BaseResponse> ResetPassword(ResetPasswordRequestDto request);
+    Task<BaseResponse> ForgotPassword(ForgotPasswordRequestDto request);
 }

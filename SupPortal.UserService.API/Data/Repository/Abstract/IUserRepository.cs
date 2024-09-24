@@ -13,7 +13,7 @@ public interface IUserRepository
     Task<int> SaveChangesAsync();
 
     Task<User> GetUserByUsernameAsync(string username, bool isInclude = false);
-    Task<User> GetUserByEmailAsync(string email);
+    Task<User?> GetUserByEmailAsync(string email, bool isInclude = false);
     Task<Role> GetStandUserRole();
 
 

@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ using SupPortal.UserService.API.Data.Repository.Abstract;
 using SupPortal.UserService.API.Data.Repository.Concrete;
 using SupPortal.UserService.API.Data.Service;
 using SupPortal.UserService.API.Extension;
+using SupPortal.UserService.API.Models.Dto;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +83,23 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.UsingRabbitMq((ct, cf) =>
+    {
+        cf.Host(builder.Configuration["RabbitMQConfig:Host"], x =>
+        {
+            x.Username(builder.Configuration["RabbitMQConfig:Username"]);
+            x.Password(builder.Configuration["RabbitMQConfig:Password"]);
+        });
+
+    });
+
+});
+
+
 
 var app = builder.Build();
 

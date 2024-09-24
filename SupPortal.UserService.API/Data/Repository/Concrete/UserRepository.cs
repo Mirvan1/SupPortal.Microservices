@@ -50,22 +50,30 @@ namespace SupPortal.UserService.API.Data.Repository.Concrete;
 
     public async Task<User?> GetUserByUsernameAsync(string username,bool isInclude=false)
     {
+        var query = _context.Users.AsQueryable();
+
         if (isInclude)
-            return await _context.Users
-            .Include(u => u.Role)
-            .Include(u => u.Profile)
-            .FirstOrDefaultAsync(u => u.Username == username);
-        else
-            return await _context.Users
-           .FirstOrDefaultAsync(u => u.Username == username);
+        {
+            query = query.Include(u => u.Role)
+                         .Include(u => u.Profile);
+        }
+
+        return await query.FirstOrDefaultAsync(u => u.Username == username);
+
     }
 
-    public async Task<User?> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string email,bool isInclude=false)
     {
-        return await _context.Users
-            .Include(u => u.Role)
-            .Include(u => u.Profile)
-            .FirstOrDefaultAsync(u => u.Email == email);
+        var query = _context.Users.AsQueryable();
+
+        if (isInclude)
+        {
+            query = query.Include(u => u.Role)
+                         .Include(u => u.Profile);
+        }
+
+        return await query.FirstOrDefaultAsync(u => u.Email == email);
+
     }
 
       public async Task<Role> GetStandUserRole()

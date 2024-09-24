@@ -84,6 +84,25 @@ builder.Services.AddMassTransit(cfg =>
          }
  );
 
+
+        cf.ReceiveEndpoint(
+        MQSettings.ForgotPasswordCommand,
+        e =>
+        {
+            e.ConfigureConsumer<MailNotificationConsumer>(ct);
+        }
+        );
+
+
+
+        cf.ReceiveEndpoint(
+        MQSettings.ResetPasswordInfoCommand,
+        e =>
+        {
+            e.ConfigureConsumer<MailNotificationConsumer>(ct);
+        }
+        );
+
     });
 });
 

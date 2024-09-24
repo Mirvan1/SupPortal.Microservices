@@ -13,7 +13,7 @@ using MailKit;
 
 namespace SupPortal.NotificationService.API.Service;
 
-public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbox> _mailInboxRepository, IAuthSettings _authSettings, IOptions<MailSettingsDto> _mailSettingsOptions,ILogger<MailService> _logger) : IMailService
+public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbox> _mailInboxRepository, IAuthSettings _authSettings, IOptions<MailSettingsDto> _mailSettingsOptions, ILogger<MailService> _logger) : IMailService
 {
     private readonly MailSettingsDto _mailSettings = _mailSettingsOptions.Value;
 
@@ -36,6 +36,14 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
             await _mailInboxRepository.SaveChangesAsync();
         }
     }
+
+
+    public async Task DirectSendEmailConsume(SendEmailDto sendEmail)
+    {
+        //TODO
+        await SendEmail(sendEmail);
+    }
+
 
 
     public async Task ProcessMail()
@@ -67,7 +75,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                                 newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/create-ticket-template.html").Replace("{Ticket_Name}", TicketName).Replace("{User}", newMail.Username).Replace("{Ticket_Link}", "");
 
                                 _logger.LogInformation("");
-                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                await SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
 
                                 break;
 
@@ -76,7 +84,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                                 newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/create-comment-template.html").Replace("{Comment_Link}", "").Replace("{User}", newMail.Username);
 
                                 _logger.LogInformation("");
-                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                await SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
                                 break;
 
                             case nameof(UpdateTicketEvent):
@@ -84,7 +92,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                                 newMail.Body = File.ReadAllText(Directory.GetCurrentDirectory() + "/StaticFiles/MailTemplates/update-ticket-template.html").Replace("{Ticket_Name}", TicketName).Replace("{User}", newMail.Username);
 
                                 _logger.LogInformation("");
-                                SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
+                                await SendEmail(new SendEmailDto(newMail.SenderAddress, newMail.Subject, newMail.Body, newMail.Username));
                                 break;
                         }
 
@@ -102,7 +110,7 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
                     mail.Processed = false;
                     _mailInboxRepository.Update(mail);
                     await _mailInboxRepository.SaveChangesAsync();
-                    _logger.LogError(""+e.Message);
+                    _logger.LogError("" + e.Message);
 
                     Console.WriteLine(e.Message);
                     throw;
@@ -115,16 +123,15 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
     }
 
 
-    private async void SendEmail(SendEmailDto sendEmailDto )
+    private async Task SendEmail(SendEmailDto sendEmailDto)
     {
         try
         {
-            string verificationCode = string.Empty;
-            using (MimeMessage emailMessage = new MimeMessage())
+             using (MimeMessage emailMessage = new MimeMessage())
             {
                 MailboxAddress emailFrom = new MailboxAddress(_mailSettings.SenderName, _mailSettings.SenderEmail);
                 emailMessage.From.Add(emailFrom);
-                MailboxAddress emailTo = new MailboxAddress( sendEmailDto.Username, sendEmailDto.Email);
+                MailboxAddress emailTo = new MailboxAddress(sendEmailDto.Username, sendEmailDto.Email);
                 emailMessage.To.Add(emailTo);
 
                 emailMessage.Subject = sendEmailDto.Subject;
@@ -146,9 +153,9 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
         }
         catch
         {
-            throw ;
+            throw;
         }
-      
+
     }
 
 }
