@@ -11,13 +11,15 @@ public class GetTagQueryHandler(ITagRepository _tagRepository, IMapper _mapper) 
 {
     public async Task<GetTagDto> Handle(GetTagQuery request, CancellationToken cancellationToken)
     {
-        var getTickets = await _tagRepository.GetByIdAsync(request.Id);
+        var getTag = await _tagRepository.GetByName(request.TagName, cancellationToken);
 
-        if (getTickets is null) return BaseResponseDto.ErrorResponse<GetTagDto>(ConstantErrorMessages.NotFound);
+        if (getTag is null) return BaseResponseDto.ErrorResponse<GetTagDto>(ConstantErrorMessages.NotFound);
 
-        var mappingRes = _mapper.Map<GetTagDto>(getTickets);
+        var mappingRes = _mapper.Map<GetTagDto>(getTag);
 
         if (mappingRes is null) return BaseResponseDto.ErrorResponse<GetTagDto>(ConstantErrorMessages.NotFound);
+
+        mappingRes.isSuccess = true;
 
         return mappingRes;
     }

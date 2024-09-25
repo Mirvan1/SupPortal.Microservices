@@ -9,4 +9,10 @@ public class CommentRepository : GenericRepository<Comment>, ICommentRepository
     public CommentRepository(tsContext context) : base(context)
     {
     }
+
+
+    public IQueryable<Comment> GetCommentsByTicket(int RequestId)
+    {
+        return _dbSet.Where(x=>x.TicketId == RequestId);
+    }
 }

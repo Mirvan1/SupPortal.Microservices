@@ -13,14 +13,14 @@ public class DeleteTagCommandHandler(IAuthSettings _authSettings,ITagRepository 
         var loggedUserRole = _authSettings.GetLoggedUserRole();
         var loggedUserName = _authSettings.GetLoggedUsername();
 
-        var getTag = await _tagRepository.GetByIdAsync(request.TagId);
+        var getTag = await _tagRepository.GetByName(request.TagName,cancellationToken);
 
         if (getTag is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 
         if (!getTag.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
         await _tagRepository.DeleteAsync(getTag);
-        await _tagRepository.SaveChangesAsync();
+        await _tagRepository.SaveChangesAsync(cancellationToken);
 
         return BaseResponseDto.SuccessResponse();
     }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
@@ -7,6 +8,7 @@ using SupPortal.TicketService.API.Infrastructure.Extension;
 namespace SupPortal.TicketService.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TagController : BaseController
 {
     public TagController(IMediator mediator) : base(mediator)
@@ -21,10 +23,10 @@ public class TagController : BaseController
     }
 
 
-    [HttpGet("{Id}")]
-    public async Task<IActionResult> Get([FromQuery] GetTagQuery query)
+    [HttpGet("{Name}")]
+    public async Task<IActionResult> Get(string Name)
     {
-        return (await _mediator.Send(query)).ToActionResult();
+        return (await _mediator.Send(new GetTagQuery() { TagName = Name })).ToActionResult();
     }
 
 
@@ -35,10 +37,10 @@ public class TagController : BaseController
     }
 
 
-    [HttpDelete("{Id}")]
-    public async Task<IActionResult> Delete(int Id)
+    [HttpDelete("{Name}")]
+    public async Task<IActionResult> Delete(string Name)
     {
-        return  (await _mediator.Send(new DeleteCommentCommand() { CommentId=Id})).ToActionResult();
+        return  (await _mediator.Send(new DeleteTagCommand() { TagName = Name})).ToActionResult();
     }
 
 }

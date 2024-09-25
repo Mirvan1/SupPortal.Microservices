@@ -17,7 +17,7 @@ public class CreateCommentCommandHandler(ITicketRepository _ticketRepository, IC
     {
         try
         {
-            var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
+            var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId,cancellationToken);
 
             if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.BadRequest);
 

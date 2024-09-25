@@ -129,6 +129,8 @@ public class MailService(IRepository<Mail> _mailRepository, IRepository<MailInbo
         {
              using (MimeMessage emailMessage = new MimeMessage())
             {
+                _mailSettings.Password = _mailSettings.Password.Replace("{mail_password}", Environment.GetEnvironmentVariable("mail_password", EnvironmentVariableTarget.User));
+
                 MailboxAddress emailFrom = new MailboxAddress(_mailSettings.SenderName, _mailSettings.SenderEmail);
                 emailMessage.From.Add(emailFrom);
                 MailboxAddress emailTo = new MailboxAddress(sendEmailDto.Username, sendEmailDto.Email);

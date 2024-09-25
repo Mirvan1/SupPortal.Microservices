@@ -25,7 +25,7 @@ public class AuthSettings(IHttpContextAccessor _httpContextAccessor) : IAuthSett
     {
         using var client = new HttpClient();
 
-        var response = await client.GetAsync($"https://localhost:7004/api/user/user-by-email?email={username}");
+        var response = await client.GetAsync($"https://localhost:7004/api/user/user-by-username?email={username}");
 
         if (response.IsSuccessStatusCode)
         {

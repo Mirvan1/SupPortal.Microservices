@@ -14,7 +14,7 @@ public class MappingProfile : Profile
         CreateMap<Ticket, CreateTicketEvent>();
 
         CreateMap<Tag, GetTagDto>();
-        CreateMap<GetCommentDto, GetCommentDto>();
+        CreateMap<Comment, GetCommentDto>();
 
         CreateMap<PaginatedList<Ticket>, PaginatedResponseDto<GetTicketDto>>()
             .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Items))

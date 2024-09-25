@@ -12,14 +12,14 @@ public class DeleteTicketCommandHandler(IAuthSettings _authSettings,ITicketRepos
         var loggedUserRole = _authSettings.GetLoggedUserRole();
         var loggedUserName = _authSettings.GetLoggedUsername();
 
-        var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
+        var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId,cancellationToken);
 
         if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 
         if(!getTicket.UserName.Equals(loggedUserName) || loggedUserRole.Equals("Supporter")) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.UnAuthorized);
 
         await _ticketRepository.DeleteAsync(getTicket);
-        int res = await _ticketRepository.SaveChangesAsync();
+        int res = await _ticketRepository.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("");
 

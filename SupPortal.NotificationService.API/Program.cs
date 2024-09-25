@@ -108,6 +108,7 @@ builder.Services.AddMassTransit(cfg =>
 
      var mailSettingsInstance = new MailSettingsDto();
     var mailSettings = builder.Configuration.GetSection("MailSettings");
+
     mailSettings.Bind(mailSettingsInstance);
      builder.Services.AddSingleton<IOptions<MailSettingsDto>>(new OptionsWrapper<MailSettingsDto>(mailSettingsInstance));
 

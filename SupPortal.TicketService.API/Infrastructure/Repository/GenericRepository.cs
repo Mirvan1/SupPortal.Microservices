@@ -16,14 +16,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T> GetByIdAsync(int id,CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync(id);
+        return await _dbSet.FindAsync(id,cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _dbSet.ToListAsync();
+        return await _dbSet.ToListAsync(cancellationToken);
     }
 
     public async Task AddAsync(T entity)
@@ -59,12 +59,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return Task.CompletedTask;
     }
 
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        return await _context.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<PaginatedList<T>> ToPagedListAsync(QueryParameters? param = null, List<Expression<Func<T, object>>>? includes = null)
+    public async Task<PaginatedList<T>> ToPagedListAsync(QueryParameters? param = null, List<Expression<Func<T, object>>>? includes = null,CancellationToken? cancellationToken=null)
     {
         if (param is not null)
         {
@@ -90,9 +95,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             }
 
             var count = await query.CountAsync();
-            var items = await query.Skip((param.PageNumber) * param.PageSize)
-                                   .Take(param.PageSize)
-                                   .ToListAsync();
+
+            List<T> items = null;
+            if (cancellationToken==null)
+            {
+                items = await query.Skip((param.PageNumber) * param.PageSize)
+                                  .Take(param.PageSize)
+                                  .ToListAsync();
+            }
+            else
+            {
+                  items = await query.Skip((param.PageNumber) * param.PageSize)
+                                 .Take(param.PageSize)
+                                 .ToListAsync((CancellationToken)cancellationToken);
+            }
+          
 
             return new PaginatedList<T>(items, count, param.PageNumber, param.PageSize == int.MaxValue ? count : param.PageSize);
         }
@@ -103,14 +120,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
 
-    public async Task<T> FirstOrDefaultAsync()
+    public async Task<T> FirstOrDefaultAsync(CancellationToken cancellationToken)
     {
-        return await _dbSet.FirstOrDefaultAsync();
+        return await _dbSet.FirstOrDefaultAsync(cancellationToken);
     }
 
 
-    public async Task<long> GetCount()
+    public async Task<long> GetCount(CancellationToken cancellationToken)
     {
-        return await _dbSet.CountAsync();
+        return await _dbSet.CountAsync(cancellationToken);
     }
 }

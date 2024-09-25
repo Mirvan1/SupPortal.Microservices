@@ -5,5 +5,5 @@ namespace SupPortal.TicketService.API.ApplicationCore.Dtos.Request;
 
 public class DeleteTagCommand:IRequest<BaseResponseDto>
 {
-    public int TagId { get; set; }
+    public string TagName { get; set; }
 }

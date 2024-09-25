@@ -11,9 +11,9 @@ public class TagRepository : GenericRepository<Tag>, ITagRepository
     {
     }
 
-    public async Task<Tag> GetByName(string name)
+    public async Task<Tag> GetByName(string name,CancellationToken cancellationToken)
     {
-      return await _dbSet.FirstOrDefaultAsync(x => x.Name.Equals(name));
+      return await _dbSet.FirstOrDefaultAsync(x => x.Name.Equals(name),cancellationToken);
     }
 }
 

@@ -13,7 +13,7 @@ public class GetAllTicketsQueryHandler(ITicketRepository _ticketRepository,IMapp
     {
         //TODO user Auth control
 
-        var getTickets = await _ticketRepository.ToPagedListAsync(new QueryParameters(request.PageNumber,request.PageSize,request.SortBy,request.IsSortDescending) );
+        var getTickets = await _ticketRepository.ToPagedListAsync(new QueryParameters(request.PageNumber,request.PageSize,request.SortBy,request.IsSortDescending),null,cancellationToken );
 
         if (getTickets is null) return PaginatedResponseDto<GetTicketDto>.Failure(ConstantErrorMessages.NotFound);
 

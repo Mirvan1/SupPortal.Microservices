@@ -22,7 +22,7 @@ public class UpdateTicketStatusCommandHandler(IUnitOfWork _unitOfWork, ITicketRe
             await _unitOfWork.BeginTransactionAsync();
             _logger.LogInformation("");
 
-            var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId);
+            var getTicket = await _ticketRepository.GetByIdAsync(request.TicketId,cancellationToken);
 
             if (getTicket is null) return BaseResponseDto.ErrorResponse(ConstantErrorMessages.NotFound);
 

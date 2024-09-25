@@ -37,6 +37,9 @@ public class BaseResponseDto
     }
 
 
+     
+
+
     public static BaseResponseDto ErrorResponse(string errorMessage)
     {
         return new BaseResponseDto
@@ -71,6 +74,8 @@ public class BaseResponseDto
             isSuccess = result,
         };
     }
+
+  
 }
 
 

@@ -10,7 +10,7 @@ public class GetAllTagsQueryHandler(ITagRepository _tagRepository,IMapper _mappe
 {
     public async Task<PaginatedResponseDto<GetTagDto>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
     {
-        var getTags = await _tagRepository.ToPagedListAsync(new QueryParameters(request.PageNumber, request.PageSize, request.SortBy, request.IsSortDescending));
+        var getTags = await _tagRepository.ToPagedListAsync(new QueryParameters(request.PageNumber, request.PageSize, request.SortBy, request.IsSortDescending),null,cancellationToken);
 
         if (getTags is null) return PaginatedResponseDto<GetTagDto>.Failure(ConstantErrorMessages.NotFound);
 

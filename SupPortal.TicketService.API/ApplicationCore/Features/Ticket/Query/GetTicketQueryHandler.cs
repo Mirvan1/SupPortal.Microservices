@@ -13,13 +13,14 @@ public class GetTicketQueryHandler(ITicketRepository _ticketRepository,IMapper _
     public async Task<GetTicketDto> Handle(GetTicketQuery request, CancellationToken cancellationToken)
     {
 
-        var getTickets = await _ticketRepository.GetByIdAsync(request.Id);
+        var getTickets = await _ticketRepository.GetByIdAsync(request.Id,cancellationToken);
 
         if (getTickets is null) return BaseResponseDto.ErrorResponse<GetTicketDto>(ConstantErrorMessages.NotFound);
 
         var mappingRes = _mapper.Map<GetTicketDto>(getTickets);
 
         if (mappingRes is null) return BaseResponseDto.ErrorResponse<GetTicketDto>(ConstantErrorMessages.NotFound);
+        mappingRes.isSuccess = true;
 
         return mappingRes;
     }

@@ -3,6 +3,6 @@
 namespace SupPortal.TicketService.API.ApplicationCore.Interface;
 public interface ITagRepository : IGenericRepository<Tag>
 {
-    Task<Tag> GetByName(string name);
+    Task<Tag> GetByName(string name, CancellationToken cancellationToken);
 }
 
